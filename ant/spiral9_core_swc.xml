@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SPIRAL9_CORE" default="SPIRAL9_CORE" basedir="../">
+
+	<xmlproperty file="${basedir}${file.separator}.project"/>
+	<property name="project.output.dir" value="${basedir}${file.separator}bin${file.separator}" />
+	<property name="project.classpath" value="${basedir}${file.separator}src${file.separator}" />
+	<property name="SPIRAL9_CORE" value="${project.classpath}com${file.separator}spiral9${file.separator}core${file.separator}SPIRAL9_CORE.as" />
+	<property name="URLservice" value="${project.classpath}com${file.separator}spiral9${file.separator}net${file.separator}URLservice.as" />
+	<property name="DataUtils" value="${project.classpath}com${file.separator}spiral9${file.separator}utils${file.separator}DataUtils.as" />
+
+	<!-- START : TIMESTAMP -->
+	<tstamp>
+		<format property="verStamp" pattern="yyyy_MM_dd_hh_mm"/>
+	</tstamp>
+	
+	<property name="verStampRegEx" value="\[[0-9][0-9][0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]\]" />
+	
+	<target name="stampVer">
+		<echo>
+		verStamp : ${verStamp}
+		SPIRAL9_CORE : ${SPIRAL9_CORE}
+		URLservice : ${URLservice}
+		DataUtils : ${DataUtils}</echo>
+		<replaceregexp file="${SPIRAL9_CORE}" match="${verStampRegEx}" replace="\[${verStamp}\]" byline="true" />
+		<replaceregexp file="${URLservice}" match="${verStampRegEx}" replace="\[${verStamp}\]" byline="true" />
+		<replaceregexp file="${DataUtils}" match="${verStampRegEx}" replace="\[${verStamp}\]" byline="true" />
+	</target>
+	<!-- END : TIMESTAMP -->
+
+	<target name="SPIRAL9_CORE">
+		<antcall target="stampVer"/>
+		<eclipse.refreshLocal resource="${projectDescription.name}" depth="infinite" />
+		<fdt.loadProjectProperties projectname="${projectDescription.name}" />
+		<fdt.launch.library projectname="${FDTProject}" compilerarguments="-target-player=${FDTProjectPlayerVersion} -debug=true -omit-trace-statements=false -verbose-stacktraces=true -optimize=true" target="${project.output.dir}spiral9_core.swc" />
+		<copy file="${project.output.dir}spiral9_core.swc" tofile="/Users/kvr/Desktop/working/soundings/year_of_guided_meditations/lib/spiral9_core.swc"/>
+		<copy file="${project.output.dir}spiral9_core.swc" tofile="/Users/kvr/Desktop/working/projects/sacred_geom/lib/spiral9_core.swc"/>
+		<copy file="${project.output.dir}spiral9_core.swc" tofile="/Users/kvr/Desktop/working/spiral9/SLIDESHOW/lib/spiral9_core.swc"/>
+		<eclipse.refreshLocal resource="YOGM" depth="infinite" />
+	</target>
+</project>
